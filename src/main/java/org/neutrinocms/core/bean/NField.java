@@ -7,6 +7,8 @@ import java.util.List;
 import org.neutrinocms.core.bo.annotation.BOField.SortType;
 import org.neutrinocms.core.bo.annotation.BOField.ValueType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class NField implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -27,6 +29,8 @@ public class NField implements Serializable {
 	private String tabName;
 	private String groupName;
 	private List<String> enumDatas;
+	
+	@JsonIgnore
 	private Field field;
 	private String defaultValue;
 	

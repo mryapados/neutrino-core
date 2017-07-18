@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import org.neutrinocms.core.controller.IdProviderConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.cache.ehcache.EhCacheManagerFactoryBean;
 import org.springframework.cache.support.NoOpCacheManager;
@@ -52,6 +53,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 //@EnableLoadTimeWeaving
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @EnableSpringDataWebSupport
+@EnableCaching
 public class NeutrinoCoreConfiguration extends WebMvcConfigurerAdapter {
 	
 	@Autowired

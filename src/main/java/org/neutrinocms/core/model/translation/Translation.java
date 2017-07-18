@@ -29,6 +29,8 @@ import org.neutrinocms.core.bo.annotation.BOField.SortType;
 import org.neutrinocms.core.bo.annotation.BOField.ValueType;
 import org.neutrinocms.core.model.independant.Folder;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "translation")
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -72,6 +74,7 @@ public abstract class Translation implements ITranslation, Serializable {
 	@JoinColumn(name="id_lang")
 	private Lang lang;
 	
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="id_translation")
 	private TranslationProvider translation;
