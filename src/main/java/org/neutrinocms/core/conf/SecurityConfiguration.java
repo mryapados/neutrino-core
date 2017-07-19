@@ -17,6 +17,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
@@ -59,7 +60,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {    	
   	  http
-  	  	.csrf().csrfTokenRepository(csrfTokenRepository())
+  	  	.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
   	  	.and().authorizeRequests()
   		.antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
 //  		.antMatchers("/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER') or hasRole('ROLE_APP')")
@@ -74,12 +75,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   		.and().addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class);
     }
     
-    @Bean
-    public CsrfTokenRepository csrfTokenRepository() {
-    	  HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
-    	  repository.setHeaderName("X-XSRF-TOKEN");
-    	  return repository;
-    }
+//    @Bean
+//    public CsrfTokenRepository csrfTokenRepository() {
+//    	  HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
+//    	  repository.setHeaderName("X-XSRF-TOKEN");
+//    	  return repository;
+//    }
     
     @Bean
 	public PersistentTokenRepository persistentTokenRepository() {
