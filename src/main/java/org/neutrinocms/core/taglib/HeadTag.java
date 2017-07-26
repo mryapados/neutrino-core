@@ -1,6 +1,7 @@
 package org.neutrinocms.core.taglib;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.jsp.JspWriter;
@@ -9,6 +10,7 @@ import javax.servlet.jsp.tagext.TagSupport;
 
 import org.apache.log4j.Logger;
 import org.neutrinocms.core.constant.AttributeConst;
+import org.neutrinocms.core.model.Authority;
 import org.neutrinocms.core.model.independant.Folder;
 import org.neutrinocms.core.model.independant.User;
 import org.neutrinocms.core.util.CommonUtil;
@@ -49,7 +51,16 @@ public class HeadTag extends TagSupport {
 			Folder folder = (Folder) pageContext.getAttribute(FOLDER, PageContext.REQUEST_SCOPE);
 			pageContext.include(commonUtil.getBasePath(true, folder, TypeBase.COMMON) + "components/css.jsp");
 			User surfer = (User) pageContext.getAttribute(SURFER, PageContext.REQUEST_SCOPE);
-			if (surfer.getRole().equals(User.ROLE_ADMIN)){
+			
+			boolean isAdmin = false;
+			List<Authority> authorities = surfer.getAuthorities();
+			for (Authority authority : authorities) {
+				if (authority.getName().equals(User.ROLE_ADMIN)) {
+					isAdmin = true;
+				}
+			}
+			
+			if (isAdmin){
 				out.println("<link href=\"" + commonUtil.getContextPath() + "/style/app.css\" rel=\"stylesheet\">");
 			} 
 			out.println("</head>");

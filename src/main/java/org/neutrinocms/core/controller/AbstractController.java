@@ -1,5 +1,8 @@
 package org.neutrinocms.core.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 
 import org.apache.log4j.Logger;
@@ -8,6 +11,7 @@ import org.neutrinocms.core.exception.JSPNotFoundException;
 import org.neutrinocms.core.exception.ResourceNotFoundException;
 import org.neutrinocms.core.exception.ServiceException;
 import org.neutrinocms.core.exception.UtilException;
+import org.neutrinocms.core.model.Authority;
 import org.neutrinocms.core.model.independant.Folder;
 import org.neutrinocms.core.model.independant.User;
 import org.neutrinocms.core.model.translation.Page;
@@ -20,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -69,7 +74,12 @@ public abstract class AbstractController {
 		} else {
 			user = new User();
 			user.setEnabled(true);
-			user.setRole(User.ROLE_PUBLIC);
+			
+			//TODO
+			List<Authority> authorities = new ArrayList<Authority>();
+			user.setAuthorities(authorities);
+			
+			
 		}
 		return user;
 	}

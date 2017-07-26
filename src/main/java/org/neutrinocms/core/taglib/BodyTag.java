@@ -1,6 +1,7 @@
 package org.neutrinocms.core.taglib;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.jsp.JspWriter;
@@ -9,6 +10,7 @@ import javax.servlet.jsp.tagext.TagSupport;
 
 import org.apache.log4j.Logger;
 import org.neutrinocms.core.constant.AttributeConst;
+import org.neutrinocms.core.model.Authority;
 import org.neutrinocms.core.model.independant.Folder;
 import org.neutrinocms.core.model.independant.User;
 import org.neutrinocms.core.model.translation.Page;
@@ -48,7 +50,16 @@ public class BodyTag extends TagSupport {
 			Boolean blockPreview = (Boolean) pageContext.getAttribute(BLOCKPREVIEW, PageContext.REQUEST_SCOPE);
 			if (blockPreview){
 				User surfer = (User) pageContext.getAttribute(SURFER, PageContext.REQUEST_SCOPE);
-				if (surfer.getRole().equals(User.ROLE_ADMIN)){
+				
+				boolean isAdmin = false;
+				List<Authority> authorities = surfer.getAuthorities();
+				for (Authority authority : authorities) {
+					if (authority.getName().equals(User.ROLE_ADMIN)) {
+						isAdmin = true;
+					}
+				}
+				
+				if (isAdmin){
 					Folder folder = (Folder) pageContext.getAttribute(FOLDER, PageContext.REQUEST_SCOPE);
 					Page page = (Page) pageContext.getAttribute(ACTIVEPAGE, PageContext.REQUEST_SCOPE);
 					Translation activeObject = (Translation) pageContext.getAttribute(ACTIVEOBJECT, PageContext.REQUEST_SCOPE);
@@ -78,7 +89,16 @@ public class BodyTag extends TagSupport {
 		JspWriter out = pageContext.getOut();
 		try {			
 			User surfer = (User) pageContext.getAttribute(SURFER, PageContext.REQUEST_SCOPE);
-			if (surfer.getRole().equals(User.ROLE_ADMIN)){
+			
+			boolean isAdmin = false;
+			List<Authority> authorities = surfer.getAuthorities();
+			for (Authority authority : authorities) {
+				if (authority.getName().equals(User.ROLE_ADMIN)) {
+					isAdmin = true;
+				}
+			}
+			
+			if (isAdmin){
 				String adminPath = commonUtil.getBasePath(true, null, TypeBase.ADMIN);
 				pageContext.include(adminPath + "components/blockPreview.jsp");
 				Boolean blockPreview = (Boolean) pageContext.getAttribute(BLOCKPREVIEW, PageContext.REQUEST_SCOPE);

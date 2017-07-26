@@ -5,6 +5,7 @@ import java.util.Locale;
 
 import javax.persistence.Entity;
 
+import org.neutrinocms.core.conf.security.SecurityConfiguration;
 import org.neutrinocms.core.controller.IdProviderConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
@@ -32,9 +33,11 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
@@ -62,7 +65,16 @@ public class NeutrinoCoreConfiguration extends WebMvcConfigurerAdapter {
 	@Autowired
     private IdProviderConverter idProviderConverter;
 
-    
+	@Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurerAdapter() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**").allowedOrigins("http://localhost:4200");
+            }
+        };
+    }
+	
 	@Bean
 	public CacheManager cacheManager() {
 		if (neutrinoCoreProperties.getCache()) return new EhCacheCacheManager(ehCacheCacheManager().getObject());

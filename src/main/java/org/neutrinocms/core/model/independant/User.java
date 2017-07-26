@@ -1,16 +1,22 @@
 package org.neutrinocms.core.model.independant;
 
 import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
@@ -20,6 +26,7 @@ import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
 import org.neutrinocms.core.bo.annotation.BOField;
 import org.neutrinocms.core.bo.annotation.BOField.SortType;
 import org.neutrinocms.core.bo.annotation.BOField.ValueType;
+import org.neutrinocms.core.model.Authority;
 import org.neutrinocms.core.model.IdProvider;
 
 @Entity
@@ -61,13 +68,20 @@ public class User implements IdProvider, Serializable {
 	@BOField(type = ValueType.BOOLEAN)
 	@Column(name = "enabled")
 	private Boolean enabled;
-	
+
 	@NotNull
-	@BOField(type = ValueType.VARCHAR50)
-	@SafeHtml(whitelistType = WhiteListType.NONE)
-	@Column(name = "role")
-	private String role;
-//
+	@BOField(type = ValueType.DATETIME)
+	@Column(name = "last_password_reset_date")
+	private Date lastPasswordResetDate;
+	
+	@BOField(type = ValueType.COLLECTION, ofType = ValueType.OBJECT)
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_authority",
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "authority_id", referencedColumnName = "id")})
+    private List<Authority> authorities;
+
 //	@Transient
 //	private boolean preview;
 	
@@ -121,13 +135,21 @@ public class User implements IdProvider, Serializable {
 		this.enabled = enabled;
 	}
 
-	public String getRole() {
-		return role;
+    public Date getLastPasswordResetDate() {
+		return lastPasswordResetDate;
 	}
 
-	public void setRole(String role) {
-		this.role = role;
+	public void setLastPasswordResetDate(Date lastPasswordResetDate) {
+		this.lastPasswordResetDate = lastPasswordResetDate;
 	}
+
+	public List<Authority> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(List<Authority> authorities) {
+        this.authorities = authorities;
+    }
 
 //	public PreviewType getPreview() {
 //		if (preview){

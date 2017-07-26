@@ -2,6 +2,7 @@ package org.neutrinocms.core.taglib;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.jsp.JspException;
@@ -13,6 +14,7 @@ import org.apache.log4j.Logger;
 import org.apache.taglibs.standard.tag.common.core.ParamParent;
 import org.neutrinocms.core.constant.AttributeConst;
 import org.neutrinocms.core.exception.ServiceException;
+import org.neutrinocms.core.model.Authority;
 import org.neutrinocms.core.model.independant.Position;
 import org.neutrinocms.core.model.independant.User;
 import org.neutrinocms.core.model.translation.Page;
@@ -67,7 +69,16 @@ public class BlockTag extends TagSupport implements IIncludeJSP, ParamParent {
 			Boolean blockPreview = (Boolean) pageContext.getAttribute(AttributeConst.BLOCKPREVIEW, PageContext.REQUEST_SCOPE);
 			if (blockPreview){
 				User surfer = (User) pageContext.getAttribute(AttributeConst.SURFER, PageContext.REQUEST_SCOPE);
-				if (surfer.getRole().equals(User.ROLE_ADMIN)){
+				
+				boolean isAdmin = false;
+				List<Authority> authorities = surfer.getAuthorities();
+				for (Authority authority : authorities) {
+					if (authority.getName().equals(User.ROLE_ADMIN)) {
+						isAdmin = true;
+					}
+				}
+				
+				if (isAdmin){
 					Template model = (Template) pageContext.getAttribute(AttributeConst.ACTIVEBLOCK, PageContext.REQUEST_SCOPE);
 					Translation activeObject = (Translation) pageContext.getAttribute(AttributeConst.ACTIVEOBJECT, PageContext.REQUEST_SCOPE);
 					Page page = (Page) pageContext.getAttribute(AttributeConst.ACTIVEPAGE, PageContext.REQUEST_SCOPE);
