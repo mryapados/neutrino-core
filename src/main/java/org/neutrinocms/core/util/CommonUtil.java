@@ -23,7 +23,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component
-@Scope(value = "singleton")
 public class CommonUtil {	
 	private Logger logger = Logger.getLogger(CommonUtil.class);
 	
@@ -74,7 +73,7 @@ public class CommonUtil {
 	
 	public static final String BASE_WEBINF = "/WEB-INF/";
 	
-	public static final String BO_URL = "@bo/";
+	@Deprecated
 	public static final String BO_FILE_URL = "file/";
 	
 	

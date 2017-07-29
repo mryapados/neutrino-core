@@ -5,7 +5,6 @@ import java.util.Locale;
 
 import javax.persistence.Entity;
 
-import org.neutrinocms.core.conf.security.SecurityConfiguration;
 import org.neutrinocms.core.controller.IdProviderConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
@@ -19,7 +18,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.FilterType;
-import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
@@ -28,19 +26,23 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.ResourceHttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.mobile.device.DeviceWebArgumentResolver;
+import org.springframework.mobile.device.site.SitePreferenceWebArgumentResolver;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
+import org.springframework.web.servlet.mvc.method.annotation.ServletWebArgumentResolverAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
@@ -50,7 +52,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @PropertySource("classpath:neutrino-core.properties")
 @Configuration
 @ComponentScan(basePackages = {"org.neutrinocms.core", "org.neutrinocms.bo", "${basepackage}"}, includeFilters = @ComponentScan.Filter(value = Entity.class, type = FilterType.ANNOTATION) )
-@Import({SecurityConfiguration.class})
 @EnableWebMvc
 @EnableTransactionManagement
 //@EnableLoadTimeWeaving
@@ -65,15 +66,32 @@ public class NeutrinoCoreConfiguration extends WebMvcConfigurerAdapter {
 	@Autowired
     private IdProviderConverter idProviderConverter;
 
-	@Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurerAdapter() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("http://localhost:4200");
-            }
-        };
+//	@Bean
+//    public WebMvcConfigurer corsConfigurer() {
+//        return new WebMvcConfigurerAdapter() {
+//            @Override
+//            public void addCorsMappings(CorsRegistry registry) {
+//                registry.addMapping("/**").allowedOrigins("http://localhost:4200");
+//            }
+//        };
+//    }
+	
+    @Bean
+    public CorsFilter corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.addAllowedOrigin("*");
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("OPTIONS");
+        config.addAllowedMethod("GET");
+        config.addAllowedMethod("POST");
+        config.addAllowedMethod("PUT");
+        config.addAllowedMethod("DELETE");
+        source.registerCorsConfiguration("/**", config);
+        return new CorsFilter(source);
     }
+	
 	
 	@Bean
 	public CacheManager cacheManager() {
@@ -152,6 +170,19 @@ public class NeutrinoCoreConfiguration extends WebMvcConfigurerAdapter {
 	@Override
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
 		argumentResolvers.add(serverNameHandlerMethodArgumentResolver());
+		
+        // Adding Spring mobile argument resolvers
+        argumentResolvers.add(
+            new ServletWebArgumentResolverAdapter(
+                new DeviceWebArgumentResolver()));
+
+        argumentResolvers.add(
+            new ServletWebArgumentResolverAdapter(
+                new SitePreferenceWebArgumentResolver()));
+		
+		
+		
+		
 	}
 	
 	@Override

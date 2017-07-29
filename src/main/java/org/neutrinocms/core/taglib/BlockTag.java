@@ -15,6 +15,7 @@ import org.apache.taglibs.standard.tag.common.core.ParamParent;
 import org.neutrinocms.core.constant.AttributeConst;
 import org.neutrinocms.core.exception.ServiceException;
 import org.neutrinocms.core.model.Authority;
+import org.neutrinocms.core.model.AuthorityName;
 import org.neutrinocms.core.model.independant.Position;
 import org.neutrinocms.core.model.independant.User;
 import org.neutrinocms.core.model.translation.Page;
@@ -73,7 +74,7 @@ public class BlockTag extends TagSupport implements IIncludeJSP, ParamParent {
 				boolean isAdmin = false;
 				List<Authority> authorities = surfer.getAuthorities();
 				for (Authority authority : authorities) {
-					if (authority.getName().equals(User.ROLE_ADMIN)) {
+					if (authority.getName().equals(AuthorityName.ROLE_ADMIN)) {
 						isAdmin = true;
 					}
 				}

@@ -35,6 +35,10 @@ public class NeutrinoCoreProperties {
 	private String basePackageDao;
 	private String basePackageModel;
 	
+	private String boUrl;
+	private String apiUrl;
+	private String authUrl;
+	
 	@PostConstruct
 	public void init() {
 		jdbcUrl = environment.getProperty("jdbc.url");
@@ -54,7 +58,11 @@ public class NeutrinoCoreProperties {
 		
 		basePackage = environment.getProperty("basepackage");	
 		basePackageDao = environment.getProperty("basepackage.dao");	
-		basePackageModel = environment.getProperty("basepackage.model");	
+		basePackageModel = environment.getProperty("basepackage.model");
+		
+		boUrl = environment.getProperty("bo.url");
+		apiUrl = environment.getProperty("api.url");
+		authUrl = environment.getProperty("auth.url");
 	}
 
 	public String getJdbcUrl() {
@@ -95,5 +103,14 @@ public class NeutrinoCoreProperties {
 	}
 	public String getBasePackageModel() {
 		return basePackageModel;
+	}
+	public String getBoUrl() {
+		return boUrl;
+	}
+	public String getApiUrl() {
+		return apiUrl;
+	}
+	public String getAuthUrl() {
+		return authUrl;
 	}
 }

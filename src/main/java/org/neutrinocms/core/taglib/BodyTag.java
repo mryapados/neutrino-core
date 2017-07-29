@@ -11,6 +11,7 @@ import javax.servlet.jsp.tagext.TagSupport;
 import org.apache.log4j.Logger;
 import org.neutrinocms.core.constant.AttributeConst;
 import org.neutrinocms.core.model.Authority;
+import org.neutrinocms.core.model.AuthorityName;
 import org.neutrinocms.core.model.independant.Folder;
 import org.neutrinocms.core.model.independant.User;
 import org.neutrinocms.core.model.translation.Page;
@@ -54,7 +55,7 @@ public class BodyTag extends TagSupport {
 				boolean isAdmin = false;
 				List<Authority> authorities = surfer.getAuthorities();
 				for (Authority authority : authorities) {
-					if (authority.getName().equals(User.ROLE_ADMIN)) {
+					if (authority.getName().equals(AuthorityName.ROLE_ADMIN)) {
 						isAdmin = true;
 					}
 				}
@@ -93,7 +94,7 @@ public class BodyTag extends TagSupport {
 			boolean isAdmin = false;
 			List<Authority> authorities = surfer.getAuthorities();
 			for (Authority authority : authorities) {
-				if (authority.getName().equals(User.ROLE_ADMIN)) {
+				if (authority.getName().equals(AuthorityName.ROLE_ADMIN)) {
 					isAdmin = true;
 				}
 			}

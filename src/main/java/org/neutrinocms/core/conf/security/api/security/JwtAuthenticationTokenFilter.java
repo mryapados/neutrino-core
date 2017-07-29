@@ -3,6 +3,7 @@ package org.neutrinocms.core.conf.security.api.security;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,8 +23,9 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     private final Log logger = LogFactory.getLog(this.getClass());
 
     @Autowired
+    @Qualifier("userService")
     private UserDetailsService userDetailsService;
-
+    
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 

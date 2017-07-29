@@ -1,7 +1,6 @@
 package org.neutrinocms.core.controller;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -24,14 +23,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
-
-import javassist.compiler.ast.Member;
 
 @Controller
 @SessionAttributes( value = AbstractController.ATTR_BLOCKPREVIEW, types={Boolean.class} )
@@ -64,7 +61,7 @@ public abstract class AbstractController {
 		User user = null;
 		if (isAuthenticated()){
 			logger.debug("user is authenticated");
-			org.springframework.security.core.userdetails.User userDetail = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			UserDetails userDetail = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
 			logger.debug("user is null ? " + (user == null));
 			if (user == null || !user.getLogin().equals(userDetail.getUsername())){

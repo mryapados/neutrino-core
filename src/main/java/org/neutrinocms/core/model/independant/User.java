@@ -37,16 +37,6 @@ import org.neutrinocms.core.model.IdProvider;
 public class User implements IdProvider, Serializable {
 
 	private static final long serialVersionUID = 1L;
-
-
-//	public enum PreviewType{
-//		NONE, ADMIN, USER
-//	}
-	
-	public static final String ROLE_ADMIN = "ROLE_ADMIN";
-	public static final String ROLE_WEBMASTER = "ROLE_WEBMASTER";
-	public static final String ROLE_USER = "ROLE_USER";
-	public static final String ROLE_PUBLIC = "ROLE_PUBLIC";
 	
 	@BOField(type = ValueType.INTEGER, editable = false)
 	@Id

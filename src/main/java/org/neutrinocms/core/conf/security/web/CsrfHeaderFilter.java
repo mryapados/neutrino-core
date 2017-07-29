@@ -1,4 +1,4 @@
-package org.neutrinocms.core.conf;
+package org.neutrinocms.core.conf.security.web;
 
 import java.io.IOException;
 
