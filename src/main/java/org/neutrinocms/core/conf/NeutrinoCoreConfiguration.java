@@ -26,6 +26,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.ResourceHttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.http.converter.xml.MappingJackson2XmlHttpMessageConverter;
 import org.springframework.mobile.device.DeviceWebArgumentResolver;
 import org.springframework.mobile.device.site.SitePreferenceWebArgumentResolver;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -36,9 +37,11 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
@@ -66,31 +69,31 @@ public class NeutrinoCoreConfiguration extends WebMvcConfigurerAdapter {
 	@Autowired
     private IdProviderConverter idProviderConverter;
 
-//	@Bean
-//    public WebMvcConfigurer corsConfigurer() {
-//        return new WebMvcConfigurerAdapter() {
-//            @Override
-//            public void addCorsMappings(CorsRegistry registry) {
-//                registry.addMapping("/**").allowedOrigins("http://localhost:4200");
-//            }
-//        };
-//    }
-	
-    @Bean
-    public CorsFilter corsFilter() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(true);
-        config.addAllowedOrigin("*");
-        config.addAllowedHeader("*");
-        config.addAllowedMethod("OPTIONS");
-        config.addAllowedMethod("GET");
-        config.addAllowedMethod("POST");
-        config.addAllowedMethod("PUT");
-        config.addAllowedMethod("DELETE");
-        source.registerCorsConfiguration("/**", config);
-        return new CorsFilter(source);
+	@Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurerAdapter() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**").allowedOrigins("http://localhost:4200");
+            }
+        };
     }
+	
+//    @Bean
+//    public CorsFilter corsFilter() {
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        CorsConfiguration config = new CorsConfiguration();
+//        config.setAllowCredentials(true);
+//        config.addAllowedOrigin("*");
+//        config.addAllowedHeader("*");
+//        config.addAllowedMethod("OPTIONS");
+//        config.addAllowedMethod("GET");
+//        config.addAllowedMethod("POST");
+//        config.addAllowedMethod("PUT");
+//        config.addAllowedMethod("DELETE");
+//        source.registerCorsConfiguration("/**", config);
+//        return new CorsFilter(source);
+//    }
 	
 	
 	@Bean
@@ -187,8 +190,9 @@ public class NeutrinoCoreConfiguration extends WebMvcConfigurerAdapter {
 	
 	@Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        // the list is empty, so we just add our converter
+        // the list is empty, so we just add our converter	
         converters.add(jsonConverter());
+        converters.add(xmlConverter());
         converters.add(fileConverter());
     }
 
@@ -199,6 +203,15 @@ public class NeutrinoCoreConfiguration extends WebMvcConfigurerAdapter {
                 .serializerByType(String.class, new SanitizedStringSerializer())
                 .build();
         return new MappingJackson2HttpMessageConverter(objectMapper);
+    }
+    
+    @Bean
+    public HttpMessageConverter<Object> xmlConverter() {
+    	ObjectMapper objectMapper = Jackson2ObjectMapperBuilder
+                .xml()
+                .serializerByType(String.class, new SanitizedStringSerializer())
+                .build();
+        return new MappingJackson2XmlHttpMessageConverter(objectMapper);
     }
 	
     @Bean

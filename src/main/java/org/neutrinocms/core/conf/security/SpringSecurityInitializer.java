@@ -1,4 +1,4 @@
-package org.neutrinocms.core.conf;
+package org.neutrinocms.core.conf.security;
 
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 

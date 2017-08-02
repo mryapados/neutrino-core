@@ -75,6 +75,7 @@ public abstract class TranslationService<T extends Translation> extends BaseServ
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public T translate(T base, Lang lang) throws ServiceException {
 		boolean fromSomething = base.getId() != null;
 		if (fromSomething) base = (T) idProviderUtil.getFullObject(base.getClass(), base.getId());

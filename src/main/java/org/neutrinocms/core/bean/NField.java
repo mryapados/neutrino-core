@@ -4,10 +4,16 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import org.neutrinocms.core.bo.annotation.BOField.SortType;
 import org.neutrinocms.core.bo.annotation.BOField.ValueType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 public class NField implements Serializable {
 
@@ -30,11 +36,10 @@ public class NField implements Serializable {
 	private String groupName;
 	private List<String> enumDatas;
 	
-	@JsonIgnore
-	private Field field;
+	@JsonIgnore private Field field;
+
 	private String defaultValue;
-	
-	
+
 	private String reverseJoin;
 	private Boolean reverseIsCollection;
 	
