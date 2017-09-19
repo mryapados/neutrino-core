@@ -51,16 +51,7 @@ public class BodyTag extends TagSupport {
 			Boolean blockPreview = (Boolean) pageContext.getAttribute(BLOCKPREVIEW, PageContext.REQUEST_SCOPE);
 			if (blockPreview){
 				User surfer = (User) pageContext.getAttribute(SURFER, PageContext.REQUEST_SCOPE);
-				
-				boolean isAdmin = false;
-				List<Authority> authorities = surfer.getAuthorities();
-				for (Authority authority : authorities) {
-					if (authority.getName().equals(AuthorityName.ROLE_ADMIN)) {
-						isAdmin = true;
-					}
-				}
-				
-				if (isAdmin){
+				if (surfer.isAdmin()){
 					Folder folder = (Folder) pageContext.getAttribute(FOLDER, PageContext.REQUEST_SCOPE);
 					Page page = (Page) pageContext.getAttribute(ACTIVEPAGE, PageContext.REQUEST_SCOPE);
 					Translation activeObject = (Translation) pageContext.getAttribute(ACTIVEOBJECT, PageContext.REQUEST_SCOPE);

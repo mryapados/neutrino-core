@@ -27,6 +27,7 @@ import org.neutrinocms.core.bo.annotation.BOField;
 import org.neutrinocms.core.bo.annotation.BOField.SortType;
 import org.neutrinocms.core.bo.annotation.BOField.ValueType;
 import org.neutrinocms.core.model.Authority;
+import org.neutrinocms.core.model.AuthorityName;
 import org.neutrinocms.core.model.IdProvider;
 
 @Entity
@@ -83,6 +84,18 @@ public class User implements IdProvider, Serializable {
 		return this.getClass().getSimpleName();
 	}
 	
+	@Transient
+	public boolean isAdmin() {
+		if (authorities == null) return false;
+		boolean isAdmin = false;
+		for (Authority authority : authorities) {
+			if (authority.getName().equals(AuthorityName.ROLE_ADMIN)) {
+				isAdmin = true;
+			}
+		}
+		return isAdmin;
+	}
+
 	@Override
 	public String getName() {
 		return name;

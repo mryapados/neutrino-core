@@ -71,15 +71,7 @@ public class BlockTag extends TagSupport implements IIncludeJSP, ParamParent {
 			if (blockPreview){
 				User surfer = (User) pageContext.getAttribute(AttributeConst.SURFER, PageContext.REQUEST_SCOPE);
 				
-				boolean isAdmin = false;
-				List<Authority> authorities = surfer.getAuthorities();
-				for (Authority authority : authorities) {
-					if (authority.getName().equals(AuthorityName.ROLE_ADMIN)) {
-						isAdmin = true;
-					}
-				}
-				
-				if (isAdmin){
+				if (surfer.isAdmin()){
 					Template model = (Template) pageContext.getAttribute(AttributeConst.ACTIVEBLOCK, PageContext.REQUEST_SCOPE);
 					Translation activeObject = (Translation) pageContext.getAttribute(AttributeConst.ACTIVEOBJECT, PageContext.REQUEST_SCOPE);
 					Page page = (Page) pageContext.getAttribute(AttributeConst.ACTIVEPAGE, PageContext.REQUEST_SCOPE);

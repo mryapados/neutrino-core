@@ -52,16 +52,7 @@ public class HeadTag extends TagSupport {
 			Folder folder = (Folder) pageContext.getAttribute(FOLDER, PageContext.REQUEST_SCOPE);
 			pageContext.include(commonUtil.getBasePath(true, folder, TypeBase.COMMON) + "components/css.jsp");
 			User surfer = (User) pageContext.getAttribute(SURFER, PageContext.REQUEST_SCOPE);
-			
-			boolean isAdmin = false;
-			List<Authority> authorities = surfer.getAuthorities();
-			for (Authority authority : authorities) {
-				if (authority.getName().equals(AuthorityName.ROLE_ADMIN)) {
-					isAdmin = true;
-				}
-			}
-			
-			if (isAdmin){
+			if (surfer.isAdmin()){
 				out.println("<link href=\"" + commonUtil.getContextPath() + "/style/app.css\" rel=\"stylesheet\">");
 			} 
 			out.println("</head>");
