@@ -8,6 +8,7 @@ public class AttributeConst {
 	public static final String CACHE_SERVICE_BEAN = "CACHE_SERVICE_BEAN";
 	public static final String PAGE_SERVICE_BEAN = "PAGE_SERVICE_BEAN";
 	public static final String POSITION_SERVICE_BEAN = "POSITION_SERVICE_BEAN";
+	public static final String TOBJECT_SERVICE_BEAN = "TOBJECT_SERVICE_BEAN";
 	public static final String TEMPLATE_SERVICE_BEAN = "TEMPLATE_SERVICE_BEAN";
 	public static final String JSP_TAG_UTIL_BEAN = "JSP_TAG_UTIL_BEAN";
 	public static final String ID_PROVIDER_UTIL_BEAN = "ID_PROVIDER_UTIL_BEAN";

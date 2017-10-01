@@ -29,6 +29,10 @@ public class Lang implements IdProvider, Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 
+	@BOField(type = ValueType.BOOLEAN)
+	@Column(name = "active")
+	private boolean active;
+	
 	@BOField(type = ValueType.VARCHAR50)
 	@NotNull
 	@SafeHtml(whitelistType = WhiteListType.SIMPLE_TEXT)
@@ -62,15 +66,23 @@ public class Lang implements IdProvider, Serializable {
 		this.code = code;
 		this.name = name;
 	}
-
+	@Override
 	public Integer getId() {
 		return id;
 	}
-
+	@Override
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
+	@Override
+	public boolean isActive() {
+		return active;
+	}
+	@Override
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+	
 	public String getCode() {
 		return code;
 	}
@@ -78,11 +90,11 @@ public class Lang implements IdProvider, Serializable {
 	public void setCode(String code) {
 		this.code = code;
 	}
-
+	@Override
 	public String getName() {
 		return name;
 	}
-
+	@Override
 	public void setName(String name) {
 		this.name = name;
 	}

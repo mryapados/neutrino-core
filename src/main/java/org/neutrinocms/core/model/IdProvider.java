@@ -9,4 +9,7 @@ public interface IdProvider {
 	
 	String getName();
 	void setName(String name);
+	
+	boolean isActive();
+	void setActive(boolean isActive);
 }

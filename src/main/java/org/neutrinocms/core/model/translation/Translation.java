@@ -48,6 +48,10 @@ public abstract class Translation implements ITranslation, Serializable {
 	@Access(AccessType.PROPERTY)
 	private Integer id;
 	
+	@BOField(type = ValueType.BOOLEAN, defaultValue = "true")
+	@Column(name = "active")
+	private boolean active;
+	
 	@BOField(type = ValueType.VARCHAR50, defaultField = true, sortBy = SortType.ASC, sortPriority = 200)
 	@NotNull
 	@SafeHtml(whitelistType = WhiteListType.SIMPLE_TEXT)
@@ -75,7 +79,7 @@ public abstract class Translation implements ITranslation, Serializable {
 	private Lang lang;
 	
 	@JsonIgnore
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="id_translation")
 	private TranslationProvider translation;
 	
@@ -115,6 +119,16 @@ public abstract class Translation implements ITranslation, Serializable {
 	@Override
 	public Integer getId() {
 		return id;
+	}
+
+	@Override
+	public boolean isActive() {
+		return active;
+	}
+
+	@Override
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 
 	@Override

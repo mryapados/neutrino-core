@@ -17,6 +17,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.csrf.CsrfFilter;
+import org.springframework.web.filter.CharacterEncodingFilter;
 
 @Configuration
 @Order(1)
@@ -49,6 +51,11 @@ public class ApiSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
+        CharacterEncodingFilter filter = new CharacterEncodingFilter();
+  	    filter.setEncoding("UTF-8");
+  	    filter.setForceEncoding(true);
+  	    httpSecurity.addFilterBefore(filter, CsrfFilter.class);
+  	    
         httpSecurity
         	.antMatcher("/api/**")
             // we don't need CSRF because our token is invulnerable

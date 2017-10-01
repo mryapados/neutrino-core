@@ -28,6 +28,7 @@ public class NField implements Serializable {
 	private boolean inList;
 	private boolean inView;
 	private boolean editable;
+	private boolean mandatory;
 	private SortType sortBy;
 	private int sortPriority;
 	private boolean defaultField;
@@ -43,7 +44,7 @@ public class NField implements Serializable {
 	private String reverseJoin;
 	private Boolean reverseIsCollection;
 	
-	public NField(Field field, ValueType type, ValueType ofType, String name, Class<?> clazz, String className, String ofClassName, boolean inList, boolean inView, boolean editable, SortType sortBy, int sortPriority, boolean defaultField, int displayOrder, String tabName, String groupName, List<String> enumDatas, String defaultValue) {
+	public NField(Field field, ValueType type, ValueType ofType, String name, Class<?> clazz, String className, String ofClassName, boolean inList, boolean inView, boolean editable, boolean mandatory, SortType sortBy, int sortPriority, boolean defaultField, int displayOrder, String tabName, String groupName, List<String> enumDatas, String defaultValue) {
 		super();
 		
 		this.field = field;
@@ -56,6 +57,7 @@ public class NField implements Serializable {
 		this.inList = inList;
 		this.inView = inView;
 		this.editable = editable;
+		this.mandatory = mandatory;
 		this.sortBy = sortBy;
 		this.sortPriority = sortPriority;
 		this.defaultField = defaultField;
@@ -122,6 +124,12 @@ public class NField implements Serializable {
 	}
 	public void setEditable(boolean editable) {
 		this.editable = editable;
+	}
+	public boolean isMandatory() {
+		return mandatory;
+	}
+	public void setMandatory(boolean mandatory) {
+		this.mandatory = mandatory;
 	}
 	public SortType getSortBy() {
 		return sortBy;

@@ -74,7 +74,7 @@ public class CommonUtil {
 	public static final String BASE_WEBINF = "/WEB-INF/";
 	
 	@Deprecated
-	public static final String BO_FILE_URL = "file/";
+	public static final String BO_FILE_URL = "/file/";
 	
 	
 	public void init(){

@@ -44,6 +44,10 @@ public class User implements IdProvider, Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 
+	@BOField(type = ValueType.BOOLEAN)
+	@Column(name = "active")
+	private boolean active;
+	
 	@BOField(type = ValueType.VARCHAR50, defaultField = true, sortBy = SortType.ASC, sortPriority = 200)
 	@NotNull
 	@SafeHtml(whitelistType = WhiteListType.NONE)
@@ -95,7 +99,14 @@ public class User implements IdProvider, Serializable {
 		}
 		return isAdmin;
 	}
-
+	@Override
+	public boolean isActive() {
+		return active;
+	}
+	@Override
+	public void setActive(boolean active) {
+		this.active = active;
+	}
 	@Override
 	public String getName() {
 		return name;

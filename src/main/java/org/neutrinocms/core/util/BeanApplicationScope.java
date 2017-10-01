@@ -9,7 +9,9 @@ import org.neutrinocms.core.constant.AttributeConst;
 import org.neutrinocms.core.service.CacheService;
 import org.neutrinocms.core.service.PageService;
 import org.neutrinocms.core.service.PositionService;
+import org.neutrinocms.core.service.TObjectService;
 import org.neutrinocms.core.service.TemplateService;
+import org.neutrinocms.core.service.TranslationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -25,6 +27,8 @@ public class BeanApplicationScope {
 	private CommonUtil commonUtil;
 	@Autowired
 	private PageService pageService;
+	@Autowired
+	private TObjectService tObjectService;
 	@Autowired
 	private TemplateService templateService;
 	@Autowired
@@ -43,6 +47,7 @@ public class BeanApplicationScope {
 		servletContext.setAttribute(AttributeConst.COMMON_UTIL_BEAN, commonUtil);
 		servletContext.setAttribute(AttributeConst.CACHE_SERVICE_BEAN, cacheService);
 		servletContext.setAttribute(AttributeConst.PAGE_SERVICE_BEAN, pageService);
+		servletContext.setAttribute(AttributeConst.TOBJECT_SERVICE_BEAN, tObjectService);
 		servletContext.setAttribute(AttributeConst.TEMPLATE_SERVICE_BEAN, templateService);
 		servletContext.setAttribute(AttributeConst.CACHE_SERVICE_BEAN, cacheService);
 		servletContext.setAttribute(AttributeConst.POSITION_SERVICE_BEAN, positionService);

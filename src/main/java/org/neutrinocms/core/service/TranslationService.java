@@ -1,5 +1,7 @@
 package org.neutrinocms.core.service;
 
+import java.util.List;
+
 import javax.persistence.PersistenceException;
 
 import org.apache.log4j.Logger;
@@ -56,6 +58,19 @@ public abstract class TranslationService<T extends Translation> extends BaseServ
 			throw new ServiceException("erreur identify Base", e);
 		}
 	}
+	
+	
+	public List<T> getTranslations(Integer id, boolean onlyActive) throws ServiceException {
+		logger.debug("Enter in getTranslations : idTranslation = " + id);
+		try {
+			if (onlyActive) return translationDao.getActiveTranslations(id);
+			else return translationDao.getTranslations(id);
+		} catch (PersistenceException e) {
+			throw new ServiceException("erreur identify Base", e);
+		}
+	}
+	
+	
 	
 	@Override
 	@Transactional
